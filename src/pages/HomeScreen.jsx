@@ -12,11 +12,11 @@ const HomeScreen = () => {
       <main className="w-full h-full">
         <Suspense fallback={<Loader />}>
           <Routes>
-            <Route path="/" element={<Home/>}/>
-            <Route path="/templates/manage" element={<ManageTemplates/>}/>
-            <Route path="/template/details/:templateId" element={<TemplateDetails/>}/>
-            <Route path="/profile/:uid" element={<UserProfile/>}/>
-            <Route path="/resume/*" element={<EditResume/>}/>
+            <Route path="" element={<Home/>}/>
+            <Route path="templates/manage" element={<ManageTemplates/>}/>
+            <Route path="template/details/:templateId" element={<TemplateDetails/>}/>
+            <Route path="profile/:uid" element={<UserProfile/>}/>
+            <Route path="resume/*" element={<EditResume/>}/>
           </Routes>
         </Suspense>
       </main>

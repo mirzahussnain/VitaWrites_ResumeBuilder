@@ -1,11 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import {Logo} from '../assets'
+import {FooterLogo} from '../assets'
 const Footer = () => {
   return (
     <div className='w-full flex items-center justify-between border-t border-gray-300'>
     <div className='flex items-center justify-center gap-3 py-3'>
-    <img src={Logo} className='w-8 h-auto object-center' alt=''/>
+    <img src={FooterLogo} className='w-10 h-auto object-center' alt=''/>
     <p>VitaWrite</p>
     </div>
     <div className='flex items-center justify-center gap-6'>

@@ -21,7 +21,7 @@ const Authentication = () => {
   return (
     <div className='auth-section'>
     {/* top section */}
-    <img src={Logo} className='w-12 h-auto object-contain' alt=''/>
+    <img src={Logo} className='w-40 h-auto object-contain' alt=''/>
 
     {/* main section */}
     <div className='w-full flex flex-1 flex-col items-center justify-center gap-6'>
