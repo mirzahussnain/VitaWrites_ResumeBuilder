@@ -1,5 +1,6 @@
-import { collection, doc, onSnapshot, orderBy, query, setDoc } from "firebase/firestore";
+import { arrayRemove, arrayUnion, collection, doc, onSnapshot, orderBy, query, setDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../config/firebase.config"
+import { toast } from "react-toastify";
 
 export const getUserDetail=()=>{
     return new Promise ((resolve,reject)=>{
@@ -45,3 +46,89 @@ export const getTemplates=()=>{
 
     })
 }
+
+export const saveToCollections=async (user,data)=>{
+    if(!user?.collections?.includes(data?._id)){
+        const docRef=doc(db,"users",user?.uid)
+
+        await updateDoc(docRef,{
+            collections:arrayUnion(data?._id)
+        }).then(()=>{
+            toast.success("Added to collections!")
+        }).catch((error)=>toast.error(`Error:${error.message}`))
+    }
+    else{
+        const docRef=doc(db,"users",user?.uid)
+
+        await updateDoc(docRef,{
+            collections:arrayRemove(data?._id)
+        }).then(()=>{
+            toast.success("Removed from collections!")
+        }).catch((error)=>toast.error(`Error:${error.message}`))
+    }
+}
+
+export const saveToFavourites=async (user,data)=>{
+    if(!data?.favourites?.includes(user?.uid)){
+        const docRef=doc(db,"templates",data?._id)
+
+        await updateDoc(docRef,{
+            favourites:arrayUnion(user?.uid)
+        }).then(()=>{
+            toast.success("Added to favourites!")
+        }).catch((error)=>toast.error(`Error:${error.message}`))
+    }
+    else{
+        const docRef=doc(db,"templates",data?._id)
+
+        await updateDoc(docRef,{
+            favourites:arrayRemove(user?.uid)
+        }).then(()=>{
+            toast.success("Removed from favourites!")
+        }).catch((error)=>toast.error(`Error:${error.message}`))
+    }
+}
+
+export const getTemplateById=async (templateId)=>{
+    return new Promise ((resolve,reject)=>{
+        const unsubscribe=onSnapshot(doc(db,"templates",templateId),(doc)=>{
+            resolve(doc.data());
+        })
+        return unsubscribe;
+    })
+}
+
+export const getTemplateDetailEditByUser = (uid, id) => {
+    return new Promise((resolve, reject) => {
+        const resumeQuery=query(
+            doc(db,"users",uid,"resumes",id)
+        )
+      const unsubscribe = onSnapshot(
+        resumeQuery,
+        (doc) => {
+          resolve(doc.data() || "Particular Template is not saved by user");
+        }
+      );
+  
+      return unsubscribe;
+    });
+  };
+
+  export const getSavedResumes=(uid)=>{
+    
+    return new Promise ((resolve,reject)=>{
+        const templateQuery=query(
+            collection(db,"users",uid,"resumes"),
+            orderBy("timeStamp","asc")
+        );
+        
+
+        const unsubscribe=onSnapshot(templateQuery,(querySnap)=>{
+            const templates=querySnap?.docs?.map((doc)=>doc?.data());
+           
+            resolve(templates)
+        })
+
+        return unsubscribe;
+    })
+  }

@@ -1,3 +1,5 @@
 export {default as AuthButtonWithProvider} from './AuthButtonWithProvider'
 export {default as Loader} from './Loader'
 export {default as Header} from './Header'
+export {default as Filters} from './Filters'
+export {default as TemplatePin} from './TemplatePin'
